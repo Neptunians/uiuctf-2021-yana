@@ -227,7 +227,7 @@ I started with a PHP page (yana.php) in my local humble apache, serving through 
 ```bash
 $ ./ngrok http 80
 
-ngrok by @inconshreveable                                                                                                     (Ctrl+C to quit)
+ngrok by @inconshreveable
                                                                                                                                               
 Session Status online                                                                                                          
 Account        nhe@gmail.com (Plan: Free)                                                                         
@@ -256,7 +256,7 @@ Let's start with the basics: inserting a js fetch and a image link the [webhook.
 </html>
 ```
 
-And now we send very our dangerous URL to the bot and wait for the delivery.
+And now we send our very dangerous URL to the bot and wait for the delivery.
 
 ```bash
 $ nc yana-bot.chal.uiuc.tf 1337
@@ -312,15 +312,15 @@ The idea didn't work because.. I didn't read the next paragraph :@ (lazy me).
 The "only-if-cached" mode can only be used if the request's mode is "same-origin". Cached redirects will be followed if the request's redirect property is "follow" and the redirects do not violate the "same-origin" mode.
 ```
 
-So I couldn't use only-if-cached to fetch from a different subdomain. I took the exact error message above in my face.
+So I couldn't use only-if-cached to fetch from a different subdomain. I took the exact error message above in my face, when testing locally.
 
 ## Side-channel attack
 
-The caching idea was still good. If the y.png is on the cache, loading it wouldn't be at least faster?
+The caching idea was still good. If the y.png is on the cache, loading it wouldn't be at least a little faster?
 
 It's an easy test on the hipothesis. Let's check 2 things:
-* After loading the iframe with a obsviously-non-flag substring (#XXXXX), how long it takes to load the y.png?
-* After loading the iframe with a obsviously-flag substring (#uiuctf), how long it takes to load the y.png?
+* After loading the iframe with an obsviously-non-flag substring (#XXXXX), how long it takes to load the y.png?
+* After loading the iframe with an obsviously-flag substring (#uiuctf), how long it takes to load the y.png?
 
 Another important thing: since we're counting on the cache, we need a fresh browser instance, empty-cached, on each check.
 
@@ -379,7 +379,7 @@ After sending to the bot, we receive the answer: 76 ms.
 
 ![cache non-flag 1](img/cache_timing_nonflag_1.png)
 
-When trying a few more times, I perceive there is a variation, but in most of the rounds, the loading time is between 30-50 ms.
+When trying a few more times, I perceive there is a variation, but in most of the rounds, the loading time is between **30-50 ms**.
 
 Let's try the same with the known start of the flag: **uiuctf{**
 
@@ -392,12 +392,12 @@ Now close your eyes, pray to Crom and Mitra, and call the bot!
 
 ![cache non-flag 1](img/flag_substring_loading_time.png)
 
-Now we're on the game! The loading time when there is a correct flag substring consistently around 3 ms. We have a timing attack!
+Now we're on the game! The loading time when there is a correct flag substring consistently around **3 ms**. We have a feasible timing attack!
 
 ## Brute-forcing the flag
 
-Now we have a way to find the next char by testing every char after the flag start "uiuctf{", following the regex they gave us in the bot source: "uiuctf{[a-z0-9_]}". 
-It's just 37 attempts per char position so... feasible enough, but you don't wanna test every char in every position by hand, so let's automate sending the URL to the bot:
+Now we have a way to find the next character by testing every possible char after the flag start, "uiuctf{", following the regex they gave us in the bot source: "uiuctf{[a-z0-9_]}". 
+It's just 39 attempts per char position so... feasible enough, but you don't wanna test every char in every position by hand, so let's automate sending the URL to the bot:
 
 ```python
 import time
@@ -437,11 +437,11 @@ if __name__ == '__main__':
 * Divides the work in 5 threads, because one thread makes it terribly slow (sorry admins!) and we have a lot of waiting time related to the timing attack.
     * Each thread tests a separate group of chars
 
-This brute-force tests all chars for a specific position. Since the report is not recovered by this Python app, including the next char (in the "start" variable) is kept here as a manual task.
+This brute-force tests all chars for a specific position. Since the report (correct char) is not recovered by this Python app, including the next char (in the "start" variable) is kept here as a manual task.
 
 I started writing a remote coordinator to receive the timing report and give the results to the python brute but... it was too much work.
 
-Now let's change the HTML, so it changes the iframe URL hash according the the hash we are sending in the main URL, and reporting only on correct chars, since we are now confident of loading times.
+Now let's change the HTML, so it changes the iframe URL hash according the the hash we are sending in the yana.php URL, and reporting only on correct chars, since we are now confident of loading times (I was reporting everything I couldn't take the eyes of the monitor at first. Dumb bruting).
 
 ```html
 <!-- Final HTML Payload -->
@@ -507,7 +507,7 @@ Opening connection to yana-bot.chal.uiuc.tf on port 1337
 [*] Loading page https://2cd87fccf2d0.ngrok.io/yana.php#uiuctf{_.
 [*] Loading page https://2cd87fccf2d0.ngrok.io/yana.php#uiuctf{t.
 [/.......] Opening connection to yana-bot.chal.uiuc.tf on port 1337
-# Another bunch of crap lines
+# Another bunch of trash lines
 ```
 
 After some seconds, we get the report:
@@ -544,6 +544,7 @@ In the CTF Discord Server, arxenix told us the challenge would be even harder.
 
 The cache side-channel attack was the intended solution, but we would need to create a Github Page to take advantage of same-origin to make the cache attack possible. 
 Luckily for me, due to chromium caching strategy, being on a different domain didn't break my plan.
+
 But it was an awesome idea with some more learning to take home.
 
 # References
