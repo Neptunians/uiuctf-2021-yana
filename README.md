@@ -554,7 +554,7 @@ But it was an awesome idea with some more learning to take home.
 * CTF Time Event: https://ctftime.org/event/1372
 * UIUCTF CTF: https://uiuc.tf/
 * SIGPwny: https://sigpwny.com/
-* arxenix - the challenge author: https://twitter.com/ankursundara
+* Challenge author (arxenix): [@ankursundara](https://twitter.com/ankursundara)
 * Repo with the artifacts discussed here: https://github.com/Neptunians/uiuctf-2021-yana
 * Team: [FireShell](https://fireshellsecurity.team/)
 * Team Twitter: [@fireshellst](https://twitter.com/fireshellst)
