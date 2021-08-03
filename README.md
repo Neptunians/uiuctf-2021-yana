@@ -228,16 +228,18 @@ I started with a PHP page (yana.php) in my local humble apache, serving through 
 $ ./ngrok http 80
 
 ngrok by @inconshreveable
-                                                                                                                                              
-Session Status online                                                                                                          
-Account        nhe@gmail.com (Plan: Free)                                                                         
-Version        2.3.40                                                                                                          
-Region         United States (us)                                                                                              
-Web Interface  http://127.0.0.1:4040                                                                                           
-Forwarding     http://2cd87fccf2d0.ngrok.io -> http://localhost:80                                                             
-Forwarding     https://2cd87fccf2d0.ngrok.io -> http://localhost:80                                                            
-                                                                                                                            
-Connections    ttl     opn     rt1     rt5     p50     p90                                                                     
+
+Session Status online
+
+Account        nhe@gmail.com (Plan: Free) 
+Version        2.3.40              
+Region         United States (us)   
+Web Interface  http://127.0.0.1:4040
+
+Forwarding     http://2cd87fccf2d0.ngrok.io -> http://localhost:80
+Forwarding     https://2cd87fccf2d0.ngrok.io -> http://localhost:80
+ 
+Connections    ttl     opn     rt1     rt5     p50     p90
                0       0       0.00    0.00    0.00    0.00
 ```
 
