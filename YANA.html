@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>YANA</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lato&family=Marck+Script&display=swap');
+      body {
+        background-color: #15151a;
+        background-image: url("data:image/svg+xml,%3Csvg width='84' height='84' viewBox='0 0 84 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ba9c4a' fill-opacity='0.4'%3E%3Cpath d='M84 23c-4.417 0-8-3.584-8-7.998V8h-7.002C64.58 8 61 4.42 61 0H23c0 4.417-3.584 8-7.998 8H8v7.002C8 19.42 4.42 23 0 23v38c4.417 0 8 3.584 8 7.998V76h7.002C19.42 76 23 79.58 23 84h38c0-4.417 3.584-8 7.998-8H76v-7.002C76 64.58 79.58 61 84 61V23zM59.05 83H43V66.95c5.054-.5 9-4.764 9-9.948V52h5.002c5.18 0 9.446-3.947 9.95-9H83v16.05c-5.054.5-9 4.764-9 9.948V74h-5.002c-5.18 0-9.446 3.947-9.95 9zm-34.1 0H41V66.95c-5.053-.502-9-4.768-9-9.948V52h-5.002c-5.184 0-9.447-3.946-9.95-9H1v16.05c5.053.502 9 4.768 9 9.948V74h5.002c5.184 0 9.447 3.946 9.95 9zm0-82H41v16.05c-5.054.5-9 4.764-9 9.948V32h-5.002c-5.18 0-9.446 3.947-9.95 9H1V24.95c5.054-.5 9-4.764 9-9.948V10h5.002c5.18 0 9.446-3.947 9.95-9zm34.1 0H43v16.05c5.053.502 9 4.768 9 9.948V32h5.002c5.184 0 9.447 3.946 9.95 9H83V24.95c-5.053-.502-9-4.768-9-9.948V10h-5.002c-5.184 0-9.447-3.946-9.95-9zM50 50v7.002C50 61.42 46.42 65 42 65c-4.417 0-8-3.584-8-7.998V50h-7.002C22.58 50 19 46.42 19 42c0-4.417 3.584-8 7.998-8H34v-7.002C34 22.58 37.58 19 42 19c4.417 0 8 3.584 8 7.998V34h7.002C61.42 34 65 37.58 65 42c0 4.417-3.584 8-7.998 8H50z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-position: center;
+        text-align: center;
+        background-size: 150px;
+        color: #ba9c4a;
+        font-family: 'Lato', sans-serif;
+      }
+
+      input, textarea {
+        padding-top: 10px;
+        border: 1px solid #ba9c4a; 
+        padding: 15px;
+        background: transparent;
+        margin-top: 40px;
+        color: #fff;
+        font-family: 'Marck Script', cursive;
+        font-size: 30px;
+      }
+      button {
+        margin-top: 10px;
+        border: 3px double #ba9c4a;
+        background: transparent;
+        color: #fff;
+        font-family: 'Lato', sans-serif;
+      }
+
+      #wrapper {
+        background-color: #15151a;
+        border-color: #ba9c4a;
+        border: 3px solid #ba9c4a99;
+        display: inline-block;
+        margin-top: 3em;
+        padding: 0em 2em 2em 2em;
+        width: 66%;
+        position: relative;
+      }
+
+      #wrapper:before {
+        background: none;
+        border: 2px solid #ba9c4a66;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>YANA</h1>
+      <h2>yet another notepad app</h2>
+      <form id="note" method="post" action="https://chal.yana.wtf/note">
+        <textarea name="note"></textarea>
+        <br>
+        <button type="submit">save</button>
+      </form>
+      <form id="search" method="get" action="https://chal.yana.wtf/">
+        <input type="text" name="search">
+        <br>
+        <button type="submit">search</button>
+      </form>
+      <div id="output">found! <br><img src="./YANA_files/y.png"></div>
+    </div>
+    <script>
+      const noteForm = document.getElementById("note");
+      noteForm.onsubmit = (e) => {
+        e.preventDefault();
+        window.localStorage.setItem("note", new FormData(noteForm).get("note"));
+      };
+
+      const searchForm = document.getElementById("search");
+      const output = document.getElementById("output");
+      searchForm.onsubmit = (e) => {
+        e.preventDefault();
+        const query = new FormData(searchForm).get("search") ?? "";
+        document.location.hash = query;
+        search();
+      };
+
+      function search() {
+        const note = window.localStorage.getItem("note") ?? "";
+        console.log(`note: ${note}`);
+        const query = document.location.hash.substring(1);
+        console.log(`query: ${query}`);
+        if (query) {
+          if (note.includes(query)) {
+            console.log('found');
+            output.innerHTML =
+              'found! <br/><img src="https://sigpwny.com/uiuctf/y.png"></img>';
+          } else {
+            console.log('not found');
+            output.innerHTML =
+              'nope.. <br/><img src="https://sigpwny.com/uiuctf/n.png"></img>';
+          }
+        }
+      }
+      search();
+    </script>
+  
+
+</body></html>
